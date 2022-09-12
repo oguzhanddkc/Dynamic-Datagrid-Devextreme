@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="{{url_for('static', filename='js/jquery-3.6.0.min.js')}}"></script>
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/21.2.7/js/dx.all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.2.7/css/dx.light.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+</head>
+
+<body class="dx-viewport">
+    <div class="dataGridContainer">
+        <div id="dataGrid"></div>
+    </div>
+<script>
+
+$(function () {
+
+    var list = {{ posts | safe}};
+
+    var veri = list;
+    var liste = [];
+
+
+
+    var grid = $("#dataGrid").dxDataGrid({
+        dataSource: new DevExpress.data.DataSource({
+
+            store: {
+
+                type: "array",
+                key: "Booking No",
+                data: veri,
+
+            }
+
+
+        }),
+     
+
+
+        export: {
+            enabled: true
+        },
+
+        filterRow: { visible: true },
+        searchPanel: { visible: true },
+        filterBuilder: { visible: true },
+        headerFilter: {
+            visible: true,
+        },
+        editing: {
+            mode: "batch",
+            allowUpdating: true,
+            allowDeleting: true,
+            allowAdding: true
+        },
+
+
+        focusedRowEnabled: true,
+        columnAutoWidth: true,
+        showScrollBar: 'onHover',
+        allowColumnResizing: true,
+        allowColumnReordering: true,
+
+        scrolling: {
+            useNative: true,
+        },
+
+        selection: {
+
+            mode: "multiple"
+
+
+        },
+
+        onSaved: function (e) {
+
+            var items1 = e.component.getDataSource().items();
+            var myjson = JSON.stringify(items1);
+
+            $.ajax( {
+                url: '{{ url_for('data') }}',
+                type: 'POST',
+                data: {
+                    veri: myjson
+                },
+
+            } );
+
+        },
+
+
+
+    })
+
+
+
+
+});
+
+</script>
+
+</body>
+
+</html>

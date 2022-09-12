@@ -1,0 +1,12 @@
+#dataGrid {
+    height: 750px;
+}
+.dx-header-row > td[role="columnheader"]> div.dx-datagrid-text-content {
+      font-size: 16px;
+      font-weight: bold;
+      color: #FA8072;
+}
+
+.dx-row-focused.dx-data-row:not(.dx-edit-row) > td:not(.dx-focused) {
+  background-color: #DE5335;
+}
